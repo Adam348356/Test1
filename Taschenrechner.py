@@ -1,5 +1,4 @@
-```html
-<!DOCTYPE html>
+´+ü+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -75,7 +74,7 @@
       background: #ff9500;
     }
 
-    .operator:hover {Test1
+    .operator:hover {
       background: #ffad33;
     }
 
@@ -90,7 +89,7 @@
 
     .equals:hover {
       background: #4cd964;
-    }
+    }```html
 
     .zero {
       grid-column: span 2;
@@ -124,7 +123,7 @@
       <button onclick="addToDisplay('2')">2</button>
       <button onclick="addToDisplay('3')">3</button>
       <button class="operator" onclick="addToDisplay('+')">+</button>
-
+```html
       <button class="zero" onclick="addToDisplay('0')">0</button>
       <button onclick="addToDisplay('.')">.</button>
       <button class="equals" onclick="calculate()">=</button>
@@ -155,4 +154,68 @@
         display.textContent = "0";
       } else {
         display.textContent =
-```
+          display.textContent.slice(0, -1);
+      }
+    }
+
+    function calculate() {
+      try {
+        let expression = display.textContent;
+
+        // Prozentzeichen in Dezimalzahl umwandeln
+        expression = expression.replace(
+          /(\d+(?:\.\d+)?)%/g,
+          "($1/100)"
+        );
+
+        // Nur mathematisch relevante Zeichen erlauben
+        if (!/^[0-9+\-*/().\s]+$/.test(expression)) {
+          throw new Error();
+        }
+
+        const result = Function(
+          '"use strict"; return (' + expression + ')'
+        )();
+
+        if (!Number.isFinite(result)) {
+          throw new Error();
+        }
+
+        display.textContent =
+          Number.isInteger(result)
+            ? result
+            : parseFloat(result.toFixed(10));
+
+      } catch {
+        display.textContent = "Fehler";
+      }
+    }
+
+    // Tastatur-Unterstützung
+    document.addEventListener("keydown", (event) => {
+
+      const key = event.key;
+
+      if (
+        /[0-9+\-*/().%]/.test(key)
+      ) {
+        addToDisplay(key);
+      }
+
+      if (key === "Enter" || key === "=") {
+        calculate();
+      }
+
+      if (key === "Backspace") {
+        deleteLast();
+      }
+
+      if (key === "Escape") {
+        clearDisplay();
+      }
+    });
+  </script>
+
+</body>
+</html>
+
