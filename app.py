@@ -15,7 +15,7 @@ from PIL import Image
 # FUNDGRUBE – Katharineum zu Lübeck
 # ============================================================
 
-APP_TITLE = "Fundgrube"
+APP_TITLE = "HalloDuHund"
 MODEL_PATH = Path("keras_model.h5")
 LABELS_PATH = Path("labels.txt")
 FRONT_IMAGE = Path("assets/Frontseite.jpg")
